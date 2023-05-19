@@ -1,0 +1,30 @@
+version: '3'
+services:
+  web:
+    build: .
+    image: node:16
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    environment:
+      - BD_HOST:"postgres"
+      - BD_PORT:"5432"
+      - BD_USER:"postgres"
+      - BD_DATABASE:"teste_docker"
+      - BD_PASS:"postgres"
+    networks:
+      - api-docker
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: "postgres"
+    ports:
+      - "49555:5432"
+    networks:
+      - api-docker
+
+networks:
+  api-docker:
+    driver: bridge
